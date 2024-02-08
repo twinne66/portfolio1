@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\http\Request;
 use App\Models\Post;
+use App\Http\Requests\PostRequest; //useする
 
 class PostController extends Controller
 {
     public function index(Post $post)
     {
-    return view('posts.index')->with(['posts' => $post->getPaginateByLimit()]);
+    return view('posts.index')->with(['posts' => $post->getPaginateByLimit(1)]);
     }
     
     public function show(post $post)
@@ -19,10 +20,10 @@ class PostController extends Controller
     
     public function create()
     {
-        return view('posts/create');
+        return view('posts.create');
     }
     
-    public function store(Request $request, Post $post)
+    public function store(PostRequest $request, Post $post) 
 {
     $input = $request['post'];
     $post->fill($input)->save();
