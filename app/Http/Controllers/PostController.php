@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\http\Request;
 use App\Models\Post;
 use App\Http\Requests\PostRequest; //useする
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -18,18 +19,18 @@ class PostController extends Controller
         return view('posts.show')->with(['post' => $post]);
     }
     
-    public function create()
+    public function create(Category $category)
     {
-        return view('posts.create');
+        return view('posts.create')->with(['categories' => $category->get()]);
     }
     
-    public function store(PostRequest $request, Post $post) 
+   public function store(PostRequest $request, Post $post) 
 {
     $input = $request['post'];
     $post->fill($input)->save();
     return redirect('/posts/' . $post->id);
 }
-
+    
     public function edit (Post $post)
     {
         return view('posts.edit')->with(['post'=>$post]);
